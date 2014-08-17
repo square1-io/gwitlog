@@ -1,6 +1,6 @@
 <?php
 
-namespace Gwitlog;
+namespace Conroyp\Gwitlog;
 
 /**
  * Handle the output rendering of git log entries
@@ -26,7 +26,7 @@ class Renderer
      */
     public function __construct()
     {
-        $this->gwitlog = new \Gwitlog\Reader();
+        $this->gwitlog = new Reader();
     }
 
 
@@ -94,11 +94,11 @@ class Renderer
     public function outputToFile($filename)
     {
         if (empty($this->inputSource)) {
-            throw new \Gwitlog\Exception\MissingInputSource('No input source provided');
+            throw new Exception\MissingInputSource('No input source provided');
         }
 
         if (empty($filename)) {
-            throw new \Gwitlog\Exception\MissingOutputFile('No output file provided');
+            throw new Exception\MissingOutputFile('No output file provided');
         }
 
         // Set up output file
@@ -144,7 +144,7 @@ class Renderer
     public function render()
     {
         if (empty($this->inputSource)) {
-            throw new \Gwitlog\Exception\MissingInputSource('No input source provided');
+            throw new Exception\MissingInputSource('No input source provided');
         }
 
         // Was repo name set?

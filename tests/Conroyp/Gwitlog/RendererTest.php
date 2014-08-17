@@ -1,6 +1,6 @@
 <?php
 
-namespace Gwitlog;
+namespace Conroyp\Gwitlog;
 
 /**
  * Tests for the Gwitlog rendering class
@@ -22,9 +22,9 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testOutputToFileWithNoInputFile()
     {
-        $this->setExpectedException('\Gwitlog\Exception\MissingInputSource');
+        $this->setExpectedException('\Conroyp\Gwitlog\Exception\MissingInputSource');
 
-        $gwitlog = new \Gwitlog\Renderer();
+        $gwitlog = new Renderer();
         $gwitlog->outputToFile('outputfile.txt');
     }
 
@@ -36,10 +36,11 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testOutputToFileWithNoOutputFile()
     {
-        $this->setExpectedException('\Gwitlog\Exception\MissingOutputFile');
+        $this->setExpectedException('\Conroyp\Gwitlog\Exception\MissingOutputFile');
 
-        $gwitlog = new \Gwitlog\Renderer();
-        $gwitlog->setInputFile(__DIR__ . '/../../phpunit.xml');
+        $gwitlog = new Renderer();
+        // This needs to be a real file path or a framework exception is thrown
+        $gwitlog->setInputFile(__FILE__);
         $gwitlog->outputToFile('');
     }
 
@@ -51,9 +52,9 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderWithNoInputFile()
     {
-        $this->setExpectedException('\Gwitlog\Exception\MissingInputSource');
+        $this->setExpectedException('\Conroyp\Gwitlog\Exception\MissingInputSource');
 
-        $gwitlog = new \Gwitlog\Renderer();
+        $gwitlog = new Renderer();
         $gwitlog->render();
     }
 }

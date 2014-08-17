@@ -1,6 +1,6 @@
 <?php
 
-namespace Gwitlog\Exception;
+namespace Conroyp\Gwitlog\Exception;
 
 /**
  * Invalid git log format has been provided

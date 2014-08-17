@@ -1,9 +1,9 @@
 <?php
 
-namespace Gwitlog\Exception;
+namespace Conroyp\Gwitlog\Exception;
 
 /**
- * Input source not provided
+ * No output file given to function which writes to file
  *
  * PHP Version 5.3
  *
@@ -13,6 +13,6 @@ namespace Gwitlog\Exception;
  * @license  MIT
  * @link     N/A
  */
-class MissingInputSource extends \Exception
+class MissingOutputFile extends \Exception
 {
 }

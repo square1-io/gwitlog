@@ -1,6 +1,6 @@
 <?php
 
-namespace Gwitlog;
+namespace Conroyp\Gwitlog;
 
 /**
  * Tests for the Gwitlog reader class
@@ -53,7 +53,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateLogFormat()
     {
-        $this->assertTrue(\Gwitlog\Reader::validateLogFormat($this->goodCommit));
+        $this->assertTrue(Reader::validateLogFormat($this->goodCommit));
     }
 
 
@@ -66,7 +66,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testValidateLogFormatWithBranch()
     {
         $this->assertTrue(
-            \Gwitlog\Reader::validateLogFormat($this->goodCommitWithBranch)
+            Reader::validateLogFormat($this->goodCommitWithBranch)
         );
     }
 
@@ -81,7 +81,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $line = '3a9cfa8 - (origin/my-branch-name, my-branch-name) Testing, bad line '
             . '(Fri Aug 15 18:54:51 2014 +0100) <conroyp:paul@conroyp.com>';
-        $this->assertFalse(\Gwitlog\Reader::validateLogFormat($line));
+        $this->assertFalse(Reader::validateLogFormat($line));
     }
 
 
@@ -94,7 +94,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $line = '3a9cfa81b20c88f38787955095ee1cbac4b69abc - Testing, bad date format '
             . '(Fri Aug 15 18:54:51 2014) <conroyp:paul@conroyp.com>';
-        $this->assertFalse(\Gwitlog\Reader::validateLogFormat($line));
+        $this->assertFalse(Reader::validateLogFormat($line));
     }
 
 
@@ -106,7 +106,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testValidateLogFormatWithInvalidFormat()
     {
         $line = 'Testing, invalid format (Fri Aug 15 18:54:51 2014) <conroyp:paul@conroyp.com>';
-        $this->assertFalse(\Gwitlog\Reader::validateLogFormat($line));
+        $this->assertFalse(Reader::validateLogFormat($line));
     }
 
 
@@ -117,7 +117,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateLogFormatWithEmptyString()
     {
-        $this->assertFalse(\Gwitlog\Reader::validateLogFormat(''));
+        $this->assertFalse(Reader::validateLogFormat(''));
     }
 
 
@@ -130,7 +130,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testHydrate()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         $this->assertEquals($gwitlog->hash, $this->log['hash']);
         $this->assertEquals($gwitlog->branch, $this->log['branch']);
@@ -151,7 +151,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $this->log['timestamp'],
-            \Gwitlog\Reader::extractTimestamp($this->goodCommitWithBranch)
+            Reader::extractTimestamp($this->goodCommitWithBranch)
         );
     }
 
@@ -168,7 +168,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $line = '3a9cfa81b20c88f38787955095ee1cbac4b69abc - Testing, bad date '
             . '(Boo Foo 29 18:54:51 9999 +0200) <conroyp:paul@conroyp.com>';
-        $this->assertFalse(\Gwitlog\Reader::extractTimestamp($line));
+        $this->assertFalse(Reader::extractTimestamp($line));
     }
 
 
@@ -181,7 +181,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $this->log['username'],
-            \Gwitlog\Reader::extractUsername($this->goodCommit)
+            Reader::extractUsername($this->goodCommit)
         );
     }
 
@@ -199,7 +199,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'Paúl Cánäré',
-            \Gwitlog\Reader::extractUsername($line)
+            Reader::extractUsername($line)
         );
     }
 
@@ -213,7 +213,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $this->log['hash'],
-            \Gwitlog\Reader::extractHash($this->goodCommit)
+            Reader::extractHash($this->goodCommit)
         );
     }
 
@@ -225,7 +225,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetRemoteHostGithub()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         // Valid link, should be true on assignment
         $this->assertTrue($gwitlog->setRemoteHost('https://github.com/conroyp/gwitlog'));
@@ -239,7 +239,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetRemoteHostGithubNonHttps()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         // Valid link, should be true on assignment
         $this->assertTrue($gwitlog->setRemoteHost('http://github.com/conroyp/gwitlog'));
@@ -253,8 +253,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetRemoteHostGithubInvalidRepositoryInformation()
     {
-        $this->setExpectedException('\Gwitlog\Exception\InvalidRepositoryInformation');
-        $gwitlog = new \Gwitlog\Reader();
+        $this->setExpectedException('\Conroyp\Gwitlog\Exception\InvalidRepositoryInformation');
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         // Valid link, should be true on assignment
         $this->assertTrue($gwitlog->setRemoteHost('https://github.com/gwitlog-one-big-long-string//'));
@@ -268,7 +268,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetRemoteHostBitbucket()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         // Valid link, should be true on assignment
         $this->assertTrue($gwitlog->setRemoteHost('https://bitbucket.org/conroyp/gwitlog'));
@@ -282,7 +282,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetRemoteHostTrailingSlash()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
 
         $gwitlog->setRemoteHost('https://bitbucket.org/conroyp/gwitlog/');
@@ -303,7 +303,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetRemoteHostBitbucketNonHttps()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         // Valid link, should be true on assignment
         $this->assertTrue($gwitlog->setRemoteHost('http://bitbucket.org/conroyp/gwitlog'));
@@ -317,8 +317,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetRemoteHostBitbucketInvalidRepositoryInformation()
     {
-        $this->setExpectedException('\Gwitlog\Exception\InvalidRepositoryInformation');
-        $gwitlog = new \Gwitlog\Reader();
+        $this->setExpectedException('\Conroyp\Gwitlog\Exception\InvalidRepositoryInformation');
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         // Valid link, should be true on assignment
         $this->assertTrue($gwitlog->setRemoteHost('https://bitbucket.org/gwitlog-one-big-long-string//'));
@@ -332,9 +332,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetRemoteHostUnknown()
     {
-        $this->setExpectedException('\Gwitlog\Exception\InvalidHost');
+        $this->setExpectedException('\Conroyp\Gwitlog\Exception\InvalidHost');
 
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
 
         $this->assertTrue($gwitlog->setRemoteHost('https://foobaretc.com/conroyp/gwitlog'));
@@ -348,7 +348,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasRemoteHost()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
 
         $gwitlog->setRemoteHost('https://bitbucket.org/conroyp/gwitlog/');
@@ -365,7 +365,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasRemoteHostNoneGiven()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
 
         $this->assertFalse($gwitlog->hasRemoteHost());
@@ -381,7 +381,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRemoteLinkForGithub()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         $gwitlog->setRemoteHost('https://github.com/conroyp/gwitlog');
 
@@ -401,7 +401,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRemoteLinkForBitbucket()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         $gwitlog->setRemoteHost('https://bitbucket.org/conroyp/gwitlog');
 
@@ -421,7 +421,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRemoteLinkWithoutProvider()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
 
         // With no provider set, the "link" will be a local one
@@ -439,7 +439,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDateIso8601()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
 
         // With no provider set, the "link" will be a local one
@@ -458,7 +458,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetShortHash()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
 
         // With no provider set, the "link" will be a local one
@@ -478,7 +478,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $this->log['message'],
-            \Gwitlog\Reader::extractMessage($this->goodCommit)
+            Reader::extractMessage($this->goodCommit)
         );
     }
 
@@ -490,7 +490,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetGravatar()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
 
         // With no provider set, the "link" will be a local one
@@ -509,7 +509,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetGravatarCustomSize()
     {
-        $gwitlog = new \Gwitlog\Reader();
+        $gwitlog = new Reader();
         $gwitlog->hydrate($this->goodCommitWithBranch);
         $size = 100;
 

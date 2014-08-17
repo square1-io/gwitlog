@@ -1,9 +1,9 @@
 <?php
 
-namespace Gwitlog\Exception;
+namespace Conroyp\Gwitlog\Exception;
 
 /**
- * Invalid host exception (unrecognised remote host provided)
+ * Input source not provided
  *
  * PHP Version 5.3
  *
@@ -13,6 +13,6 @@ namespace Gwitlog\Exception;
  * @license  MIT
  * @link     N/A
  */
-class InvalidHost extends \Exception
+class MissingInputSource extends \Exception
 {
 }

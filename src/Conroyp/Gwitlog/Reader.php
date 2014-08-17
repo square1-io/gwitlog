@@ -1,6 +1,6 @@
 <?php
 
-namespace Gwitlog;
+namespace Conroyp\Gwitlog;
 
 /**
  * Handle the reading of a git log entry, extracting key info to support the Renderer class
@@ -64,7 +64,7 @@ class Reader
     public function hydrate($line)
     {
         if (!self::validateLogFormat($line)) {
-            throw new \Gwitlog\Exception\InvalidLogFormat('Invalid log format received');
+            throw new Exception\InvalidLogFormat('Invalid log format received');
         }
 
         $regex = self::buildFullMatchRegex();
@@ -103,12 +103,12 @@ class Reader
         );
         // Check that we're coming from a legit host
         if (!preg_match('#https://('. implode('|', array_keys($providers)) . ')/#', $url)) {
-            throw new \Gwitlog\Exception\InvalidHost('Unsupported remote host: ' . $url);
+            throw new Exception\InvalidHost('Unsupported remote host: ' . $url);
         }
 
         // Check that we have both repo and owner
         if (!preg_match('#https://(' . implode('|', array_keys($providers)) . ')/([^/]+)/([^/]+)(/)?#', $url)) {
-            throw new \Gwitlog\Exception\InvalidRepositoryInformation(
+            throw new Exception\InvalidRepositoryInformation(
                 "Invalid repository information (owner and repo given)?: " . $url
             );
         }

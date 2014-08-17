@@ -1,9 +1,9 @@
 <?php
 
-namespace Gwitlog\Exception;
+namespace Conroyp\Gwitlog\Exception;
 
 /**
- * No output file given to function which writes to file
+ * Invalid repository (did not receive both owner and repo)
  *
  * PHP Version 5.3
  *
@@ -13,6 +13,6 @@ namespace Gwitlog\Exception;
  * @license  MIT
  * @link     N/A
  */
-class MissingOutputFile extends \Exception
+class InvalidRepositoryInformation extends \Exception
 {
 }

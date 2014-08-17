@@ -1,9 +1,9 @@
 <?php
 
-namespace Gwitlog\Exception;
+namespace Conroyp\Gwitlog\Exception;
 
 /**
- * Invalid repository (did not receive both owner and repo)
+ * Invalid host exception (unrecognised remote host provided)
  *
  * PHP Version 5.3
  *
@@ -13,6 +13,6 @@ namespace Gwitlog\Exception;
  * @license  MIT
  * @link     N/A
  */
-class InvalidRepositoryInformation extends \Exception
+class InvalidHost extends \Exception
 {
 }
