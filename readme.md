@@ -26,7 +26,7 @@ The package can be installed by adding the "conroyp/gwitlog": "dev-master" packa
 
 require 'vendor/autoload.php';
 
-use Gwitlog;
+use Conroyp\Gwitlog;
 
 $gwitlog = new Renderer();
 // Set up repo name and remote host (enables linking in output)
@@ -41,11 +41,9 @@ $gwitlog->render();
 ```
 
 @TODO: Output to file
+
 @TODO: Input from pipe
 
-
-You can use all blade features as described in the Laravel 4 documentation:
-http://laravel.com/docs/templates#blade-templating
 
 
 ### Roadmap
