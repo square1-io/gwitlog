@@ -3,7 +3,7 @@ Gwitlog
 
 Make developers eager to read your commit log by styling it like a social media timeline.
 
-Based on the [commitstrip comic](http://www.commitstrip.com/en/2014/08/07/our-cto-has-discovered-an-incredible-way-of-making-developers-read-his-commit-messages-you-wont-even-believe-how-he-did-it/), this tool allows you to take a commit log from a git repo and style it to look like a social media timeline.
+Based on this [commitstrip comic](http://www.commitstrip.com/en/2014/08/07/our-cto-has-discovered-an-incredible-way-of-making-developers-read-his-commit-messages-you-wont-even-believe-how-he-did-it/), this tool allows you to take a commit log from a git repo and style it to look like a social media timeline.
 
 ### Installation
 The package can be installed by adding the "conroyp/gwitlog": "dev-master" package to your project's `composer.json`.
@@ -56,7 +56,7 @@ $gwitlog->render();
 ```php
 <?php
 /**
- * A simple script to read a git log from a file and render the timeline to screen
+ * A simple script to read a git log from a file and render the timeline to a file
  */
 require 'vendor/autoload.php';
 
