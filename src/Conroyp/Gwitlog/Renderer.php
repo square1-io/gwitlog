@@ -110,7 +110,7 @@ class Renderer
             $repo = $this->repoName;
         }
         ob_start();
-        include __DIR__ . '/../views/header.php';
+        include $this->getView('header.php');
         $header = ob_get_clean();
         fwrite($fh, $header);
 
@@ -119,14 +119,14 @@ class Renderer
             // Echo line item
             $gweet = $this->gwitlog;
             ob_start();
-            include __DIR__ . '/../views/gweet.php';
+            include $this->getView('gweet.php');
             $gweet = ob_get_clean();
             fwrite($fh, $gweet);
         }
 
         // Footer
         ob_start();
-        include __DIR__ . '/../views/footer.php';
+        include $this->getView('footer.php');
         $footer = ob_get_clean();
         fwrite($fh, $footer);
 
@@ -153,7 +153,7 @@ class Renderer
         }
         // Render header
         ob_start();
-        include __DIR__ . '/../views/header.php';
+        include $this->getView('header.php');
         echo ob_get_clean();
 
         while ($line = fgets($this->inputSource)) {
@@ -162,16 +162,29 @@ class Renderer
             $gweet = $this->gwitlog;
             // Echo line item
             ob_start();
-            include __DIR__ . '/../views/gweet.php';
+            include $this->getView('gweet.php');
             echo ob_get_clean();
         }
 
         // Render header
         ob_start();
-        include __DIR__ . '/../views/footer.php';
+        include $this->getView('footer.php');
         echo ob_get_clean();
 
         // Close stream
         fclose($this->inputSource);
+    }
+
+
+    /**
+     * Get the path to a given view
+     *
+     * @param string $file Filename
+     *
+     * @return Full path
+     */
+    public function getView($file)
+    {
+        return __DIR__ . '/../../views/' . $file;
     }
 }
