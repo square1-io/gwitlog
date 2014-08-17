@@ -76,9 +76,6 @@ $gwitlog->setInputFile('git.log');
 // Write to file timeline.html
 $gwitlog->outputToFile('timeline.html');
 
-// Generate output and render to screen
-$gwitlog->render();
-
 ```
 
 #### Reading from stdin rather than a flat file
