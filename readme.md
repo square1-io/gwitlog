@@ -126,3 +126,4 @@ That leaves a file (`timeline.html`) containing the formatted timeline. This all
 
 * Parsing regular log output, allowing multi-line commits to be visible over multiple lines
 * Handling the output of `--graph` to better attach branch names to all commits on that branch
+* Accept url of public project and download git log from there automatically
