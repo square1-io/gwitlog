@@ -2,6 +2,8 @@
 
 namespace Square1\Gwitlog;
 
+use Philo\Blade\Blade;
+
 /**
  * Handle the output rendering of git log entries
  *
@@ -19,6 +21,16 @@ class Renderer
     private $gwitlog;
     private $repoName;
 
+    // Default templates to use
+    private $templates = array(
+        'header'    =>  'header',
+        'gwit'      =>  'gwit',
+        'footer'    =>  'footer'
+    );
+
+    private $viewDirectory;
+    private $cacheDirectory;
+
     /**
      * Constructor
      *
@@ -27,6 +39,13 @@ class Renderer
     public function __construct()
     {
         $this->gwitlog = new Reader();
+
+        // Default view and cache directories for blade templating
+        $this->viewDirectory = __DIR__ . '/../../views';
+        $this->cacheDirectory = __DIR__ . '/../../cache';
+
+        $this->setViewDirectory($this->viewDirectory);
+        $this->setCacheDirectory($this->cacheDirectory);
     }
 
 
@@ -109,26 +128,23 @@ class Renderer
         if (!empty($this->repoName)) {
             $repo = $this->repoName;
         }
-        ob_start();
-        include $this->getView('header.php');
-        $header = ob_get_clean();
+
+        $header = $this->blade->view()->make($this->templates['header']);
         fwrite($fh, $header);
 
         while ($line = fgets($this->inputSource)) {
             $this->gwitlog->hydrate($line);
             // Echo line item
-            $gweet = $this->gwitlog;
-            ob_start();
-            include $this->getView('gweet.php');
-            $gweet = ob_get_clean();
-            fwrite($fh, $gweet);
+            $gwit = $this->blade->view()->make(
+                $this->templates['gwit'],
+                array('gwit'    =>  $this->gwitlog)
+            );
+            fwrite($fh, $gwit);
         }
 
         // Footer
-        ob_start();
-        include $this->getView('footer.php');
-        $footer = ob_get_clean();
-        fwrite($fh, $footer);
+        $header = $this->blade->view()->make($this->templates['footer']);
+        fwrite($fh, $header);
 
         // Close input and output streams
         fclose($fh);
@@ -152,24 +168,21 @@ class Renderer
             $repo = $this->repoName;
         }
         // Render header
-        ob_start();
-        include $this->getView('header.php');
-        echo ob_get_clean();
+        echo $this->blade->view()->make($this->templates['header']);
 
         while ($line = fgets($this->inputSource)) {
             $this->gwitlog->hydrate($line);
             // Echo line item
-            $gweet = $this->gwitlog;
+            $gwit = $this->gwitlog;
             // Echo line item
-            ob_start();
-            include $this->getView('gweet.php');
-            echo ob_get_clean();
+            echo $this->blade->view()->make(
+                $this->templates['gwit'],
+                array('gwit'    =>  $gwit)
+            );
         }
 
-        // Render header
-        ob_start();
-        include $this->getView('footer.php');
-        echo ob_get_clean();
+        // Footer
+        echo $this->blade->view()->make($this->templates['footer']);
 
         // Close stream
         fclose($this->inputSource);
@@ -177,14 +190,68 @@ class Renderer
 
 
     /**
-     * Get the path to a given view
+     * Specify the default view directory
      *
-     * @param string $file Filename
+     * @param string $path The directory in which views are to be found
      *
-     * @return Full path
+     * @return void
      */
-    public function getView($file)
+    public function setViewDirectory($path)
     {
-        return __DIR__ . '/../../views/' . $file;
+        $this->viewDirectory = $path;
+        $this->blade = new Blade($this->viewDirectory, $this->cacheDirectory);
+    }
+
+
+    /**
+     * Specify the default cache directory
+     *
+     * @param string $path The directory in which cached views are to be stored
+     *
+     * @return void
+     */
+    public function setCacheDirectory($path)
+    {
+        $this->cacheDirectory = $path;
+        $this->blade = new Blade($this->viewDirectory, $this->cacheDirectory);
+    }
+
+
+    /**
+     * Specify a custom header template
+     *
+     * @param string $path The header template name, minus '.blade.php'
+     *
+     * @return void
+     */
+    public function setHeaderTemplate($template)
+    {
+        $this->templates['header'] = $template;
+    }
+
+
+    /**
+     * Specify a custom template for the individual commit log messages
+     *
+     * @param string $path The template name, minus '.blade.php'
+     *
+     * @return void
+     */
+    public function setGwitTemplate($template)
+    {
+        $this->templates['gwit'] = $template;
+    }
+
+
+    /**
+     * Specify a custom footer template
+     *
+     * @param string $path The footer template name, minus '.blade.php'
+     *
+     * @return void
+     */
+    public function setFooterTemplate($template)
+    {
+        $this->templates['footer'] = $template;
     }
 }
