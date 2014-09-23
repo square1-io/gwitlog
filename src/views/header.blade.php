@@ -140,7 +140,7 @@
         <div class='container'>
 
             <div class="smallprint">
-                <a href="https://github.com/conroyp/gwitlog/">Gwitlog</a> at {{ date('H:i, l F jS, Y') }}.
+                <a href="https://github.com/square1-io/gwitlog/">Gwitlog</a> at {{ date('H:i, l F jS, Y') }}.
             </div>
             <div class='title'>
                 Commit history
