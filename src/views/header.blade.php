@@ -46,7 +46,7 @@
             float: left;
             border-radius: 10px;
         }
-        .gweet-body
+        .gwit-body
         {
             margin-left: 90px;
         }
@@ -54,21 +54,21 @@
         {
             clear: both;
         }
-        .gweet-user
+        .gwit-user
         {
             font-weight: bold;
             color: #292f33;
             float: left;
         }
-        .gweet-branch, .gweet-time
+        .gwit-branch, .gwit-time
         {
             color: #8899a6;
         }
-        .gweet-detail, .gweet-commit
+        .gwit-detail, .gwit-commit
         {
             padding-top: 10px;
         }
-        .gweet-commit
+        .gwit-commit
         {
             font-size: 14px;
             color: #8899a6;
@@ -132,17 +132,15 @@
     <body>
         <div class="header-cont">
             <div class="header">
-                <?php
-                if (isset($repo)) {
-                    echo htmlentities($repo);
-                }
-                ?> Commit Log
+                @if (isset($repo))
+                    {{{ $repo }}}
+                @endif Commit Log
             </div>
         </div>
         <div class='container'>
 
             <div class="smallprint">
-                <a href="https://github.com/conroyp/gwitlog/">Gwitlog</a> at <?=date('H:i, l F jS, Y'); ?>.
+                <a href="https://github.com/conroyp/gwitlog/">Gwitlog</a> at {{ date('H:i, l F jS, Y') }}.
             </div>
             <div class='title'>
                 Commit history
