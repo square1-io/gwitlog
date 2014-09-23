@@ -114,6 +114,35 @@ Saving the above as `gwitlog.php` allows us to run:
 That leaves a file (`timeline.html`) containing the formatted timeline. This allows things like a post-build hook in a local testing environment to generate a new timeline for the team to review after each successful merge.
 
 
+### Customising the output
+
+It's possible to customise the output of the result. We use the [Blade](https://github.com/PhiloNL/Laravel-Blade) templating language, most commonly found in Laravel projects.
+
+The final page is made up of 3 sections - the header, the gwit (git log 'tweet', one per commit message) and the footer. These can be set individually, giving the path to the blade template in question (note the `.blade.php` extension is not required by these calls).
+
+```
+$gwitlog = new Renderer();
+
+...
+
+// Set custom header ..
+$gwitlog->setHeader('MY_VIEW_DIRECTORY/header');
+// .. and custom view for each commit ..
+$gwitlog->setGwit('MY_VIEW_DIRECTORY/gwit');
+// .. and the footer
+$gwitlog->setFooter('MY_VIEW_DIRECTORY/footer');
+
+...
+
+// Generate output and render to screen
+$gwitlog->render();
+```
+
+If you want to replace all of the templates, you can call `setViewDirectory($path)`. This will force the renderer to look for `header.blade.php`, `gwit.blade.php` and `footer.blade.php` all in the directory at `$path`.
+
+By default, these views shall be cached. If you have permission issues with your deployment or just wish for all of your project views to be cached in one place, call `setCacheDirectory($path)`. This will update the cache directory used by the renderer.
+
+
 ### Tests
 
 `phpunit`
