@@ -11,7 +11,7 @@ The package can be installed by adding the "conroyp/gwitlog": "dev-master" packa
 ```json
 [
     "require": {
-        "square1-io/gwitlog": "0.1.*"
+        "square1/gwitlog": "0.1.*"
     }
 ]
 ```
