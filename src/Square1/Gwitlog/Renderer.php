@@ -21,6 +21,8 @@ class Renderer
     private $gwitlog;
     private $repoName;
 
+    private $maxEntries = 20000;
+
     // Default templates to use
     private $templates = array(
         'header'    =>  'header',
@@ -137,6 +139,7 @@ class Renderer
         );
         fwrite($fh, $header);
 
+        $processedLines = 1;
         while ($line = fgets($this->inputSource)) {
             $this->gwitlog->hydrate($line);
             // Echo line item
@@ -145,6 +148,13 @@ class Renderer
                 array('gwit'    =>  $this->gwitlog)
             );
             fwrite($fh, $gwit);
+
+            // Hit the max lines? Break out
+            if ($processedLines == $this->maxEntries) {
+                break;
+            } else {
+                $processedLines++;
+            }
         }
 
         // Footer
@@ -180,6 +190,7 @@ class Renderer
             array('repo'    =>  $repo)
         );
 
+        $processedLines = 1;
         while ($line = fgets($this->inputSource)) {
             $this->gwitlog->hydrate($line);
             // Echo line item
@@ -189,6 +200,13 @@ class Renderer
                 $this->templates['gwit'],
                 array('gwit'    =>  $gwit)
             );
+
+            // Hit the max lines? Break out
+            if ($processedLines == $this->maxEntries) {
+                break;
+            } else {
+                $processedLines++;
+            }
         }
 
         // Footer
@@ -263,5 +281,20 @@ class Renderer
     public function setFooterTemplate($template)
     {
         $this->templates['footer'] = $template;
+    }
+
+
+    /**
+     * Set the maximum number of entries we'll process
+     *
+     * @param int $num Number of entries to process
+     *
+     * @return void
+     */
+    public function setMaxEntries($num)
+    {
+        if (filter_var($num, FILTER_VALIDATE_INT)) {
+            $this->maxEntries = $num;
+        }
     }
 }
