@@ -120,7 +120,7 @@
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/polymer/0.2.2/platform.js"></script>
-        <script src="http://dev.conroyp.com/gwitlog/time-elements.js"></script>
+        <script src="http://www.gwitlog.com/js/time-elements.js"></script>
         <script>
         $(document).ready(function () {
             $('.linkable').click(function() {

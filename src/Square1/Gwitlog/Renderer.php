@@ -42,7 +42,8 @@ class Renderer
 
         // Default view and cache directories for blade templating
         $this->viewDirectory = __DIR__ . '/../../views';
-        $this->cacheDirectory = __DIR__ . '/../../cache';
+        // Needs to be outside install path to ensure web user has write permission
+        $this->cacheDirectory = '/tmp';
 
         $this->setViewDirectory($this->viewDirectory);
         $this->setCacheDirectory($this->cacheDirectory);
