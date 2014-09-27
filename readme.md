@@ -40,7 +40,7 @@ $gwitlog = new Renderer();
 $gwitlog->setRepoName('Gwitlog');
 // Provide remote repo base (Optional, but it allows us link commits back to the web GUI)
 // Currently support bitbucket and github urls
-$gwitlog->setRemoteHost('https://github.com/conroyp/gwitlog');
+$gwitlog->setRemoteHost('https://github.com/square1-io/gwitlog');
 
 // Log file generated based on git log command:
 // git log --pretty=format:'%H -%d %s (%ad) <%an:%ae>' > git.log
@@ -67,7 +67,7 @@ $gwitlog = new Renderer();
 $gwitlog->setRepoName('Gwitlog');
 // Provide remote repo base (Optional, but it allows us link commits back to the web GUI)
 // Currently support bitbucket and github urls
-$gwitlog->setRemoteHost('https://github.com/conroyp/gwitlog');
+$gwitlog->setRemoteHost('https://github.com/square1-io/gwitlog');
 
 // Log file generated based on git log command:
 // git log --pretty=format:'%H -%d %s (%ad) <%an:%ae>' > git.log
@@ -96,7 +96,7 @@ $gwitlog = new Renderer();
 $gwitlog->setRepoName('Gwitlog');
 // Provide remote repo base (Optional, but it allows us link commits back to the web GUI)
 // Currently support bitbucket and github urls
-$gwitlog->setRemoteHost('https://github.com/conroyp/gwitlog');
+$gwitlog->setRemoteHost('https://github.com/square1-io/gwitlog');
 
 // Read from input stream
 $input = fopen('php://stdin', 'r');
@@ -118,29 +118,38 @@ That leaves a file (`timeline.html`) containing the formatted timeline. This all
 
 It's possible to customise the output of the result. We use the [Blade](https://github.com/PhiloNL/Laravel-Blade) templating language, most commonly found in Laravel projects.
 
-The final page is made up of 3 sections - the header, the gwit (git log 'tweet', one per commit message) and the footer. These can be set individually, giving the path to the blade template in question (note the `.blade.php` extension is not required by these calls).
+The `Renderer` can be given the location of a directory containing customised views. It will expect to find three views here - `header.blade.php`, `gwit.blade.php` and `footer.blade.php`. The call to pass on this directory can be made at any time before the `outputToFile` or `render` functions are called.
 
 ```
+<?php
+/**
+ * A simple script to read a git log from stdin and render the timeline to screen, using
+ * customised views
+ */
+require 'vendor/autoload.php';
+
+use \Square1\Gwitlog\Renderer as Renderer;
+
 $gwitlog = new Renderer();
+// Provide repo name
+$gwitlog->setRepoName('Gwitlog');
+// Provide remote repo base (Optional, but it allows us link commits back to the web GUI)
+// Currently support bitbucket and github urls
+$gwitlog->setRemoteHost('https://github.com/square1-io/gwitlog');
 
-...
+// Use our custom templates
+$gwitlog->setViewDirectory(__DIR__ . '/../views/gwitlog');
 
-// Set custom header ..
-$gwitlog->setHeader('MY_VIEW_DIRECTORY/header');
-// .. and custom view for each commit ..
-$gwitlog->setGwit('MY_VIEW_DIRECTORY/gwit');
-// .. and the footer
-$gwitlog->setFooter('MY_VIEW_DIRECTORY/footer');
-
-...
+// Read from input stream
+$input = fopen('php://stdin', 'r');
+$gwitlog->setInputStream($input);
 
 // Generate output and render to screen
 $gwitlog->render();
+
 ```
 
-If you want to replace all of the templates, you can call `setViewDirectory($path)`. This will force the renderer to look for `header.blade.php`, `gwit.blade.php` and `footer.blade.php` all in the directory at `$path`.
-
-By default, these views shall be cached. If you have permission issues with your deployment or just wish for all of your project views to be cached in one place, call `setCacheDirectory($path)`. This will update the cache directory used by the renderer.
+By default, these views shall be cached to `/tmp`. If you have permission issues with your deployment or just wish for all of your project views to be cached in one place, call `setCacheDirectory($path)`. This will update the cache directory used by the renderer.
 
 
 ### Tests
