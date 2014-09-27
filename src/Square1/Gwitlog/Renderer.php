@@ -126,11 +126,15 @@ class Renderer
 
         // Header first
         // Was repo name set?
+        $repo = '';
         if (!empty($this->repoName)) {
             $repo = $this->repoName;
         }
 
-        $header = $this->blade->view()->make($this->templates['header']);
+        $header = $this->blade->view()->make(
+            $this->templates['header'],
+            array('repo'    =>  $repo)
+        );
         fwrite($fh, $header);
 
         while ($line = fgets($this->inputSource)) {
@@ -165,11 +169,16 @@ class Renderer
         }
 
         // Was repo name set?
+        $repo = '';
         if (!empty($this->repoName)) {
             $repo = $this->repoName;
         }
+
         // Render header
-        echo $this->blade->view()->make($this->templates['header']);
+        echo $this->blade->view()->make(
+            $this->templates['header'],
+            array('repo'    =>  $repo)
+        );
 
         while ($line = fgets($this->inputSource)) {
             $this->gwitlog->hydrate($line);
