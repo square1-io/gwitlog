@@ -114,7 +114,7 @@ Saving the above as `gwitlog.php` allows us to run:
 That leaves a file (`timeline.html`) containing the formatted timeline. This allows things like a post-build hook in a local testing environment to generate a new timeline for the team to review after each successful merge.
 
 
-### Customising the output
+#### Customising the output
 
 It's possible to customise the output of the result. We use the [Blade](https://github.com/PhiloNL/Laravel-Blade) templating language, most commonly found in Laravel projects.
 
@@ -150,6 +150,11 @@ $gwitlog->render();
 ```
 
 By default, these views shall be cached to `/tmp`. If you have permission issues with your deployment or just wish for all of your project views to be cached in one place, call `setCacheDirectory($path)`. This will update the cache directory used by the renderer.
+
+
+#### Over-riding default size limits
+
+A maximum of 20,000 commits will be handled by default. If you want to try processing more than this, calling `setMaxEntries($limit)` will increase the processing limit.
 
 
 ### Tests
