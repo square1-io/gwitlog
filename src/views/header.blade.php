@@ -119,7 +119,7 @@
         }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/polymer/0.2.2/platform.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.2.2/platform.js"></script>
         <script src="http://www.gwitlog.com/js/time-elements.js"></script>
         <script>
         $(document).ready(function () {
@@ -128,6 +128,7 @@
             });
         });
         </script>
+        <title>@if (isset($repo)) {{{ $repo }}} @endif Gwitlog</title>
       </head>
     <body>
         <div class="header-cont">
@@ -138,7 +139,6 @@
             </div>
         </div>
         <div class='container'>
-
             <div class="smallprint">
                 <a href="https://github.com/square1-io/gwitlog/">Gwitlog</a> at {{ date('H:i, l F jS, Y') }}.
             </div>
